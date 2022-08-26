@@ -9,7 +9,7 @@ const errorResponse = (error: any, res: any) => {
   res.status(500).json({ message: "Internal Server Error" });
 };
 
-guestbookRouter.get("/", async (req, res) => {
+guestbookRouter.get("/:uid", async (req, res) => {
   try {
     const client = await getClient();
     const results = await client
