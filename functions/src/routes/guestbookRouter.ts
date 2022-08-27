@@ -38,15 +38,15 @@ guestbookRouter.post("/", async (req, res) => {
   }
 });
 
-guestbookRouter.delete("/:name/user/:uid", async (req, res) => {
+guestbookRouter.delete("/:_id/user/:uid", async (req, res) => {
   try {
-    const name: string = req.params.name;
+    const id: string = req.params._id;
     const uid: string = req.params.uid;
     const client = await getClient();
     const result = await client
       .db()
       .collection<ArtCollection>("guestbook")
-      .deleteOne({ name, uid });
+      .deleteOne({ id, uid });
     if (result.deletedCount) {
       res.sendStatus(204);
     } else {
