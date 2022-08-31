@@ -40,3 +40,5 @@ quizRouter.post("/", async (req, res) => {
     errorResponse(err, res);
   }
 });
+
+export default quizRouter;
