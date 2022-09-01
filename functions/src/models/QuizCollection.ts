@@ -4,5 +4,5 @@ export default interface QuizCollection {
   _id?: ObjectId;
   photo: string;
   name: string;
-  score: string;
+  score: number;
 }
