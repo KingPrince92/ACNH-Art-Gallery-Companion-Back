@@ -12,12 +12,9 @@ const errorResponse = (error: any, res: any) => {
 quizRouter.get("/", async (req, res) => {
   try {
     const client = await getClient();
-    const cursor = client
-      .db()
-      .collection<QuizCollection>("quizscores")
-      .find()
-      .sort(-1)
-      .limit(10);
+    const cursor = client.db().collection<QuizCollection>("quizscores").find();
+    // .sort(-1)
+    // .limit(10);
     const results = await cursor.toArray();
     res.status(200);
     res.json(results);
