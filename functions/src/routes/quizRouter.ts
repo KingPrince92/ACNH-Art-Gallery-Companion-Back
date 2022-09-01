@@ -9,7 +9,7 @@ const errorResponse = (error: any, res: any) => {
   res.status(500).json({ message: "Internal Server Error" });
 };
 
-quizRouter.get("/quizscores", async (req, res) => {
+quizRouter.get("/", async (req, res) => {
   try {
     const client = await getClient();
     const cursor = client.db().collection<QuizCollection>("quizscores").find();
@@ -23,7 +23,7 @@ quizRouter.get("/quizscores", async (req, res) => {
   }
 });
 
-quizRouter.post("/quizscores", async (req, res) => {
+quizRouter.post("/", async (req, res) => {
   try {
     const client = await getClient();
     const newScore: QuizCollection = req.body;
