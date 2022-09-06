@@ -1,5 +1,4 @@
 import express from "express";
-import { ObjectId } from "mongodb";
 import { getClient } from "../db";
 import ArtCollection from "../models/ArtCollection";
 
@@ -39,15 +38,15 @@ guestbookRouter.post("/", async (req, res) => {
   }
 });
 
-guestbookRouter.delete("/:id/user/:uid", async (req, res) => {
+guestbookRouter.delete("/:name/user/:uid", async (req, res) => {
   try {
-    const id: string = req.params.id;
+    const name: string = req.params.name;
     const uid: string = req.params.uid;
     const client = await getClient();
     const result = await client
       .db()
       .collection<ArtCollection>("guestbook")
-      .deleteOne({ _id: new ObjectId(id), uid });
+      .deleteOne({ name, uid });
     if (result.deletedCount) {
       res.sendStatus(204);
     } else {
