@@ -1,12 +1,13 @@
 import * as functions from "firebase-functions";
 import express from "express";
 import cors from "cors";
-import guestbookRouter from "./routes/guestbookRouter";
+
 import quizRouter from "./routes/quizRouter";
+import userRouter from "./routes/userRouter";
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use("/guestbook", guestbookRouter);
+app.use("/guestbook", userRouter);
 app.use("/quizscores", quizRouter);
 export const api = functions.https.onRequest(app);
 
