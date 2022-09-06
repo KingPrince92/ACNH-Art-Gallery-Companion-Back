@@ -77,7 +77,6 @@ userRouter.put("/remove/:uid", async (req, res) => {
     const client = await getClient();
     const uid: string | undefined = req.params.uid;
     const targetArt: string = req.body.name;
-    console.log(targetArt);
     await client
       .db()
       .collection<UserProfile>("guestbook")
@@ -88,5 +87,36 @@ userRouter.put("/remove/:uid", async (req, res) => {
     errorResponse(err, res);
   }
 });
+// for wishlist
+userRouter.put("/wishlist/:uid", async (req, res) => {
+  try {
+    const client = await getClient();
+    const uid: string | undefined = req.params.uid;
+    const newArt: ArtCollection = req.body;
+    await client
+      .db()
+      .collection<UserProfile>("guestbook")
+      .updateOne({ uid }, { $push: { wishlist: newArt } });
+    res.status(200);
+    res.json(newArt);
+  } catch (err) {
+    errorResponse(err, res);
+  }
+});
 
+userRouter.put("/wishlist/remove/:uid", async (req, res) => {
+  try {
+    const client = await getClient();
+    const uid: string | undefined = req.params.uid;
+    const targetArt: string = req.body.name;
+    await client
+      .db()
+      .collection<UserProfile>("guestbook")
+      .updateOne({ uid }, { $pull: { wishlist: { name: targetArt } } });
+    res.status(200);
+    res.json(targetArt);
+  } catch (err) {
+    errorResponse(err, res);
+  }
+});
 export default userRouter;

@@ -1,6 +1,5 @@
 import { ObjectId } from "mongodb";
 import ArtCollection from "./ArtCollection";
-import QuizCollection from "./QuizCollection";
 
 export default interface UserProfile {
   _id?: ObjectId;
@@ -8,5 +7,5 @@ export default interface UserProfile {
   displayName: string;
   photoURL: string;
   collections: ArtCollection[];
-  quizScore: QuizCollection[];
+  wishlist: ArtCollection[];
 }
