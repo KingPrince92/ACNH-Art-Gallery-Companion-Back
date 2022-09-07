@@ -14,7 +14,7 @@ const errorResponse = (error: any, res: any) => {
 userRouter.get("/", async (req, res) => {
   try {
     const client = await getClient();
-    const cursor = client.db().collection<UserProfile>("guestbook").find();
+    const cursor = client.db().collection<UserProfile[]>("guestbook").find({});
     const results = await cursor.toArray();
     res.status(200);
     res.json(results);
@@ -29,11 +29,11 @@ userRouter.get("/:uid", async (req, res) => {
     const uid: string | undefined = req.params.uid;
     const client = await getClient();
 
-    const cursor = client
+    const results = await client
       .db()
       .collection<UserProfile>("guestbook")
-      .find({ uid });
-    const results = await cursor.toArray();
+      .findOne({ uid });
+
     res.status(200);
     res.json(results);
   } catch (err) {
@@ -47,7 +47,7 @@ userRouter.post("/", async (req, res) => {
     const client = await getClient();
     const newUser: UserProfile = req.body;
     await client.db().collection<UserProfile>("guestbook").insertOne(newUser);
-    res.status(200);
+    res.status(201);
     res.json(newUser);
   } catch (err) {
     errorResponse(err, res);
@@ -55,7 +55,7 @@ userRouter.post("/", async (req, res) => {
 });
 
 //Update Collections on user to add to collections
-userRouter.put("/:uid", async (req, res) => {
+userRouter.put("/collect/:uid", async (req, res) => {
   try {
     const client = await getClient();
     const uid: string | undefined = req.params.uid;
@@ -72,7 +72,7 @@ userRouter.put("/:uid", async (req, res) => {
 });
 
 //Update Collections on user to remove from collections
-userRouter.put("/remove/:uid", async (req, res) => {
+userRouter.put("/collect/remove/:uid", async (req, res) => {
   try {
     const client = await getClient();
     const uid: string | undefined = req.params.uid;
